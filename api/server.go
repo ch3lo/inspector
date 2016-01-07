@@ -7,7 +7,7 @@ import (
 )
 
 type Configuration struct {
-	Advertise string
+	HostIP    string
 	Address   string
 	TLSVerify bool
 	TLSCacert string

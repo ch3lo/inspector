@@ -20,7 +20,7 @@ var routesMap = map[string]map[string]serviceHandler{
 
 func routes(config Configuration, sts *stats.Stats) *mux.Router {
 	ctx := &appContext{
-		hostIP: config.Advertise,
+		hostIP: config.HostIP,
 	}
 
 	logger.Instance().Debugf("Configurando API de Docker con los parametros %+v", config)

@@ -11,7 +11,7 @@ import (
 func deployFlags() []cli.Flag {
 	flags := []cli.Flag{
 		cli.StringFlag{
-			Name:  "advertise",
+			Name:  "host-ip",
 			Usage: "Ip del host",
 		},
 		cli.StringFlag{
@@ -43,8 +43,8 @@ func deployFlags() []cli.Flag {
 }
 
 func deployBefore(c *cli.Context) error {
-	if c.String("advertise") == "" {
-		return fmt.Errorf("Debe existir la ip de advertise")
+	if c.String("host-ip") == "" {
+		return fmt.Errorf("Debe existir la ip de host")
 	}
 
 	if c.String("address") == "" {
@@ -70,7 +70,7 @@ func deployBefore(c *cli.Context) error {
 
 func deployCmd(c *cli.Context) {
 	appConfig := api.Configuration{
-		Advertise: c.String("advertise"),
+		HostIP:    c.String("host-ip"),
 		Address:   c.String("address"),
 		TLSVerify: c.Bool("tlsverify"),
 		TLSCacert: c.String("tlscacert"),
