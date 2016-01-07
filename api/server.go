@@ -1,9 +1,7 @@
 package api
 
 import (
-	"github.com/ch3lo/inspector/util"
 	"github.com/codegangsta/negroni"
-	"github.com/fsouza/go-dockerclient"
 	"github.com/rs/cors"
 	"github.com/thoas/stats"
 )
@@ -11,14 +9,11 @@ import (
 type Configuration struct {
 	Advertise string
 	Address   string
-	TlsVerify bool
-	TlsCacert string
-	TlsCert   string
-	TlsKey    string
+	TLSVerify bool
+	TLSCacert string
+	TLSCert   string
+	TLSKey    string
 }
-
-var client *docker.Client
-var advertise string
 
 func Server(config Configuration) {
 	corsMiddleware := cors.New(cors.Options{
@@ -30,22 +25,9 @@ func Server(config Configuration) {
 		AllowCredentials: true,
 	})
 
-	advertise = config.Advertise
-
-	var err error
-	util.Log.Debugf("Configurando API de Docker con los parametros %+v", config)
-	if config.TlsVerify {
-		client, err = docker.NewTLSClient(config.Address, config.TlsCert, config.TlsKey, config.TlsCacert)
-	} else {
-		client, err = docker.NewClient(config.Address)
-	}
-	if err != nil {
-		panic("Error al crear el cliente")
-	}
-
 	statsMiddleware := stats.New()
 
-	router := routes(statsMiddleware)
+	router := routes(config, statsMiddleware)
 
 	n := negroni.Classic()
 	n.Use(corsMiddleware)

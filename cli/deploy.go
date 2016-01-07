@@ -72,10 +72,10 @@ func deployCmd(c *cli.Context) {
 	appConfig := api.Configuration{
 		Advertise: c.String("advertise"),
 		Address:   c.String("address"),
-		TlsVerify: c.Bool("tlsverify"),
-		TlsCacert: c.String("tlscacert"),
-		TlsCert:   c.String("tlscert"),
-		TlsKey:    c.String("tlskey"),
+		TLSVerify: c.Bool("tlsverify"),
+		TLSCacert: c.String("tlscacert"),
+		TLSCert:   c.String("tlscert"),
+		TLSKey:    c.String("tlskey"),
 	}
 
 	api.Server(appConfig)

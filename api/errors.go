@@ -24,23 +24,13 @@ func (e codeAndMessage) Error() string {
 	return fmt.Sprintf("%v: %v", e.Code, e.Message)
 }
 
-type SerializationError struct {
-	codeAndMessage
-	Detail string `json:"detail"`
-}
-
-func NewSerializationError(d string) SerializationError {
-	return SerializationError{
-		codeAndMessage{Code: 400, Message: "Servicio no existe"},
-		d,
-	}
-}
-
+// UnknownError error generico que no ha posido ser manejado
 type UnknownError struct {
 	codeAndMessage
 	detail string
 }
 
+// NewUnknownError crea un error de tipo UnknownError
 func NewUnknownError(d string) UnknownError {
 	return UnknownError{
 		codeAndMessage{Code: 500, Message: "Error desconocido"},
@@ -48,12 +38,14 @@ func NewUnknownError(d string) UnknownError {
 	}
 }
 
+// ContainerNotFound error generado cuando no existe un contenedor
 type ContainerNotFound struct {
 	codeAndMessage
 }
 
-func NewContainerNotFound() ContainerNotFound {
+// NewContainerNotFound Crea un error de tipo ContainerNotFound
+func NewContainerNotFound(id string) ContainerNotFound {
 	return ContainerNotFound{
-		codeAndMessage{Code: 404, Message: "El contenedor no existe"},
+		codeAndMessage{Code: 404, Message: fmt.Sprintf("El contenedor %s no existe", id)},
 	}
 }
