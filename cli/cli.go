@@ -58,8 +58,8 @@ func setupApplication(c *cli.Context) error {
 // Procesa todos los comandos y argumentos de la APP
 func RunApp() {
 	app := cli.NewApp()
-	app.Name = "overlord"
-	app.Usage = "Monitor de contenedores"
+	app.Name = "inspector"
+	app.Usage = "API para visualizar informacion de contenedores."
 	app.Version = version.VERSION + " (" + version.GITCOMMIT + ")"
 
 	app.Flags = globalFlags()
