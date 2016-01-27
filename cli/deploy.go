@@ -19,6 +19,10 @@ func deployFlags() []cli.Flag {
 			Usage: "Endpoint de Docker Engine. Formato ip:puerto",
 		},
 		cli.BoolFlag{
+			Name:  "tls",
+			Usage: "Usa certificados solo con tls sin verificacion",
+		},
+		cli.BoolFlag{
 			Name:  "tlsverify",
 			Usage: "Usa certificados con tlsverify",
 		},
@@ -51,11 +55,21 @@ func deployBefore(c *cli.Context) error {
 		return fmt.Errorf("Debe existir el parametro address")
 	}
 
-	if c.Bool("tlsverify") {
+	if c.Bool("tlsverify") && c.Bool("tls") {
+		return errors.New("Debe usar tls o tlsverify, no ambos")
+	} else if c.Bool("tlsverify") {
 		if c.String("tlscacert") == "" {
 			return errors.New("Parametro tlscacert no existe")
 		}
 
+		if c.String("tlscert") == "" {
+			return errors.New("Parametro tlscert no existe")
+		}
+
+		if c.String("tlskey") == "" {
+			return errors.New("Parametro tlskey no existe")
+		}
+	} else if c.Bool("tls") {
 		if c.String("tlscert") == "" {
 			return errors.New("Parametro tlscert no existe")
 		}
@@ -72,6 +86,7 @@ func deployCmd(c *cli.Context) {
 	appConfig := api.Configuration{
 		HostIP:    c.String("host-ip"),
 		Address:   c.String("address"),
+		TLS:       c.Bool("tls"),
 		TLSVerify: c.Bool("tlsverify"),
 		TLSCacert: c.String("tlscacert"),
 		TLSCert:   c.String("tlscert"),

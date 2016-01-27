@@ -1,6 +1,8 @@
 package api
 
 import (
+	"io/ioutil"
+
 	"github.com/ch3lo/inspector/logger"
 	"github.com/fsouza/go-dockerclient"
 	"github.com/gorilla/mux"
@@ -29,11 +31,26 @@ func routes(config Configuration, sts *stats.Stats) *mux.Router {
 
 	if config.TLSVerify {
 		ctx.client, err = docker.NewTLSClient(config.Address, config.TLSCert, config.TLSKey, config.TLSCacert)
+	} else if config.TLS {
+		certPEMBlock, err := ioutil.ReadFile(config.TLSCert)
+		if err != nil {
+			logger.Instance().Fatalln("Error en el certificado cliente", err)
+		}
+
+		keyPEMBlock, err := ioutil.ReadFile(config.TLSKey)
+		if err != nil {
+			logger.Instance().Fatalln("Error en la llave del certificado cliente", err)
+		}
+
+		var caPEMCert []byte
+
+		ctx.client, err = docker.NewTLSClientFromBytes(config.Address, certPEMBlock, keyPEMBlock, caPEMCert)
 	} else {
 		ctx.client, err = docker.NewClient(config.Address)
 	}
+
 	if err != nil {
-		logger.Instance().Fatalln("Error al crear el cliente")
+		logger.Instance().Fatalln("Error al crear el cliente", err)
 	}
 
 	router := mux.NewRouter()

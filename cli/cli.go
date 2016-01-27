@@ -15,6 +15,12 @@ func globalFlags() []cli.Flag {
 			Usage: "Debug de la app",
 		},
 		cli.StringFlag{
+			Name:   "listen",
+			Value:  ":8080",
+			Usage:  "Direccion y puerto donde escuchara el servidor",
+			EnvVar: "INSPECTOR_LISTEN",
+		},
+		cli.StringFlag{
 			Name:   "log-level",
 			Value:  "info",
 			Usage:  "Nivel de verbosidad de log",

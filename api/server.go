@@ -9,6 +9,7 @@ import (
 type Configuration struct {
 	HostIP    string
 	Address   string
+	TLS       bool
 	TLSVerify bool
 	TLSCacert string
 	TLSCert   string
