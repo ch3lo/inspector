@@ -3,7 +3,7 @@ package api
 import (
 	"io/ioutil"
 
-	"github.com/ch3lo/inspector/logger"
+	"github.com/jglobant/inspector/logger"
 	"github.com/fsouza/go-dockerclient"
 	"github.com/gorilla/mux"
 	"github.com/thoas/stats"
@@ -17,6 +17,7 @@ type appContext struct {
 var routesMap = map[string]map[string]serviceHandler{
 	"GET": {
 		"/container/{id}": getInspectContainer,
+		"/ps":             getAllRunningContainers,
 	},
 }
 

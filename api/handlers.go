@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/ch3lo/inspector/api/types"
-	"github.com/ch3lo/inspector/logger"
+	"github.com/jglobant/inspector/api/types"
+	"github.com/jglobant/inspector/logger"
 	"github.com/fsouza/go-dockerclient"
 	"github.com/gorilla/mux"
 	"github.com/thoas/stats"
@@ -91,5 +91,29 @@ func getInspectContainer(c *appContext, w http.ResponseWriter, r *http.Request) 
 	jsonRenderer(w, map[string]interface{}{
 		"status":    http.StatusOK,
 		"container": resp})
+	return nil
+}
+
+func getAllRunningContainers(c *appContext, w http.ResponseWriter, r *http.Request) error {
+
+	containers, err := c.client.ListContainers(docker.ListContainersOptions{All: false})
+	if err != nil {
+		return fmt.Errorf("Error queyring container list: %s", err)
+	}
+
+	var resp []types.Container
+	for _, container := range containers {
+		resCtn := types.Container{
+			ID:     container.ID,
+			Name:   container.Names[0],
+			Status: container.Status,
+			Image:  container.Image,
+		}
+		resp = append(resp, resCtn)
+	}
+
+	jsonRenderer(w, map[string]interface{}{
+		"status":     http.StatusOK,
+		"containers": resp})
 	return nil
 }

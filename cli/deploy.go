@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/ch3lo/inspector/api"
+	"github.com/jglobant/inspector/api"
 	"github.com/codegangsta/cli"
 )
 

@@ -3,8 +3,8 @@ package cli
 import (
 	"os"
 
-	"github.com/ch3lo/inspector/logger"
-	"github.com/ch3lo/inspector/version"
+	"github.com/jglobant/inspector/logger"
+	"github.com/jglobant/inspector/version"
 	"github.com/codegangsta/cli"
 )
 
