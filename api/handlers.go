@@ -93,3 +93,27 @@ func getInspectContainer(c *appContext, w http.ResponseWriter, r *http.Request) 
 		"container": resp})
 	return nil
 }
+
+func getAllRunningContainers(c *appContext, w http.ResponseWriter, r *http.Request) error {
+
+	containers, err := c.client.ListContainers(docker.ListContainersOptions{All: false})
+	if err != nil {
+		return fmt.Errorf("Error queyring container list: %s", err)
+	}
+
+	var resp []types.Container
+	for _, container := range containers {
+		resCtn := types.Container{
+			ID:     container.ID,
+			Name:   container.Names[0],
+			Status: container.Status,
+			Image:  container.Image,
+		}
+		resp = append(resp, resCtn)
+	}
+
+	jsonRenderer(w, map[string]interface{}{
+		"status":     http.StatusOK,
+		"containers": resp})
+	return nil
+}

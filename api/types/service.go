@@ -8,6 +8,9 @@ type Port struct {
 
 type Container struct {
 	ID     string          `json:"id"`
-	HostIP string          `json:"host_ip"`
-	Ports  map[string]Port `json:"ports"`
+	HostIP string          `json:"host_ip,omitempty"`
+	Ports  map[string]Port `json:"ports,omitempty"`
+	Status string          `json:"status,omitempty"`
+	Name   string          `json:"name,omitempty"`
+	Image  string          `json:"image,omitempty"`
 }

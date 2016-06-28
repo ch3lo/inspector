@@ -17,6 +17,7 @@ type appContext struct {
 var routesMap = map[string]map[string]serviceHandler{
 	"GET": {
 		"/container/{id}": getInspectContainer,
+		"/ps":             getAllRunningContainers,
 	},
 }
 
