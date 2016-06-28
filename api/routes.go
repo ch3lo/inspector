@@ -3,7 +3,7 @@ package api
 import (
 	"io/ioutil"
 
-	"github.com/jglobant/inspector/logger"
+	"github.com/ch3lo/inspector/logger"
 	"github.com/fsouza/go-dockerclient"
 	"github.com/gorilla/mux"
 	"github.com/thoas/stats"

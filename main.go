@@ -1,6 +1,6 @@
 package main
 
-import "github.com/jglobant/inspector/cli"
+import "github.com/ch3lo/inspector/cli"
 
 func main() {
 	cli.RunApp()
